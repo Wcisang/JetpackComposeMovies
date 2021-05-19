@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">JetpackComposeMovies</string>
+    <string name="tab_home">Início</string>
+    <string name="tab_favorites">Minha lista</string>
+
+
+    <string name="list_label_popular">Popular</string>
+    <string name="list_label_trending">Trending</string>
+    <string name="list_label_upcoming">Em Breve</string>
+    <string name="list_label_series">Séries TV</string>
+
+    <string name="detail_watch_button">Assista</string>
+    <string name="detail_save_button">Minha lista</string>
+    <string name="detail_movie_tab">DETALHES</string>
+    <string name="detail_more_tab">ASSISTIR TAMBÉM</string>
+
+
+
+
+
+
+</resources>

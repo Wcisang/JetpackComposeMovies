@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+apply from: '../gradle-util/android-common.gradle'
+
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    defaultConfig {
+        applicationId App.applicationId
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Version.compose
+        kotlinCompilerVersion '1.4.32'
+    }
+}
+
+dependencies {
+
+    implementation project(Modules.designSystem)
+    implementation project(Modules.domain)
+    implementation project(Modules.data)
+
+    implementation Libs.coreKtx
+    implementation Libs.appCompat
+    implementation Libs.material
+    implementation Libs.composeUi
+    implementation Libs.composeMaterial
+    implementation Libs.composeUiTooling
+    implementation Libs.lifecycleKtx
+    implementation Libs.composeActivity
+    implementation Libs.composeNavigation
+    implementation Libs.retrofit
+    implementation Libs.okhttp
+    implementation Libs.jacksonConverter
+    implementation Libs.retrofitCoroutines
+    implementation Libs.coroutinesCore
+    implementation Libs.coroutinesAndroid
+    implementation Libs.composeCoil
+    implementation Libs.gson
+
+    //Hilt
+    implementation Libs.hilt
+    kapt Kapt.hiltAndroidCompiler
+    kapt Kapt.hiltCompiler
+    implementation Libs.hiltNavigationCompose
+
+    // For instrumentation tests
+    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.35.1'
+    kaptAndroidTest 'com.goanogle.dagger:hilt-compiler:2.35.1'
+
+    // For local unit tests
+    testImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
+    kaptTest 'com.google.dagger:hilt-compiler:2.35.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:${Version.compose}"
+}
