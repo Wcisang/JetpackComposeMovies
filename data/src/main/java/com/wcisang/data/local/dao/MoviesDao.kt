@@ -11,8 +11,11 @@ interface MoviesDao {
     fun getAllMovies(): Flow<List<MovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAll(vararg gists: MovieEntity)
+    suspend fun insertAll(vararg movies: MovieEntity)
 
     @Delete
-    suspend fun delete(gist: MovieEntity)
+    suspend fun delete(movie: MovieEntity)
+
+    @Query("SELECT Count(id) FROM movie WHERE id = :movieId")
+    suspend fun isFavorited(movieId: Int) : Int
 }

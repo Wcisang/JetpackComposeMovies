@@ -39,7 +39,7 @@ class MoviesRepositoryImpl @Inject constructor(
 
     override fun getFavoritesMovieList(): Flow<List<Movie>> {
         return moviesDao.getAllMovies().distinctUntilChanged()
-            .map { list-> list.map { MovieMapper.mapMovieEntityToMovie(it) } }
+            .map { list -> list.map { MovieMapper.mapMovieEntityToMovie(it) } }
     }
 
     override suspend fun addFavoriteMovie(movie: Movie) {
@@ -48,6 +48,10 @@ class MoviesRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFavoriteMovie(movie: Movie) {
         moviesDao.delete(MovieMapper.mapMovieToMovieEntity(movie))
+    }
+
+    override suspend fun isMovieFavorite(movie: Movie): Boolean {
+        return moviesDao.isFavorited(movie.id) > 0
     }
 
 }

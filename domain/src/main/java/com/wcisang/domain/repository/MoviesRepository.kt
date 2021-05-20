@@ -16,4 +16,6 @@ interface MoviesRepository {
     suspend fun addFavoriteMovie(movie: Movie)
 
     suspend fun deleteFavoriteMovie(movie: Movie)
+
+    suspend fun isMovieFavorite(movie: Movie): Boolean
 }
