@@ -15,6 +15,7 @@ object Version {
     const val hilt = "2.35.1"
     const val hiltCompiler = "1.0.0"
     const val hiltNavigation = "1.0.0-alpha01"
+    const val room = "2.3.0"
 }
 
 object Libs {
@@ -37,11 +38,14 @@ object Libs {
     const val gson = "com.google.code.gson:gson:${Version.gson}"
     const val hilt = "com.google.dagger:hilt-android:${Version.hilt}"
     const val hiltNavigationCompose = "androidx.hilt:hilt-navigation-compose:${Version.hiltNavigation}"
+    const val roomKtx = "androidx.room:room-ktx:${Version.room}"
+    const val room = "androidx.room:room-runtime:${Version.room}"
 }
 
 object Kapt {
     const val hiltCompiler = "androidx.hilt:hilt-compiler:${Version.hiltCompiler}"
     const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${Version.hilt}"
+    const val roomCompiler = "androidx.room:room-compiler:${Version.room}"
 }
 
 object LibsTest {
