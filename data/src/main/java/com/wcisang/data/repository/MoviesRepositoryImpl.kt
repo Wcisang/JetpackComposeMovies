@@ -1,7 +1,7 @@
 package com.wcisang.data.repository
 
-import com.wcisang.data.service.MoviesService
-import com.wcisang.data.util.NetworkConstants
+import com.wcisang.data.remote.service.MoviesService
+import com.wcisang.data.remote.util.NetworkConstants
 import com.wcisang.domain.model.Movie
 import com.wcisang.domain.repository.MoviesRepository
 import kotlinx.coroutines.delay

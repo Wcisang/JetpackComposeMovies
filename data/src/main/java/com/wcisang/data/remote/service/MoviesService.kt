@@ -1,7 +1,7 @@
-package com.wcisang.data.service
+package com.wcisang.data.remote.service
 
-import com.wcisang.data.response.MoviesResponse
-import com.wcisang.data.util.NetworkConstants
+import com.wcisang.data.remote.response.MoviesResponse
+import com.wcisang.data.remote.util.NetworkConstants
 import retrofit2.http.GET
 
 interface MoviesService {

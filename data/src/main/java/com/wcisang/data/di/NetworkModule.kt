@@ -1,8 +1,8 @@
 package com.wcisang.data.di
 
-import com.wcisang.data.auth.MovieAuthInterceptor
-import com.wcisang.data.service.MoviesService
-import com.wcisang.data.util.NetworkConstants
+import com.wcisang.data.remote.auth.MovieAuthInterceptor
+import com.wcisang.data.remote.service.MoviesService
+import com.wcisang.data.remote.util.NetworkConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.wcisang.data.util
+package com.wcisang.data.remote.util
 
 object NetworkConstants {
 

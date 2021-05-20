@@ -1,6 +1,6 @@
-package com.wcisang.data.auth
+package com.wcisang.data.remote.auth
 
-import com.wcisang.data.util.NetworkConstants
+import com.wcisang.data.remote.util.NetworkConstants
 import okhttp3.Interceptor
 import okhttp3.Response
 
