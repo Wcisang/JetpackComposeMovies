@@ -19,7 +19,6 @@ import androidx.navigation.compose.*
 import com.wcisang.jetpackcomposemovies.R
 import com.wcisang.jetpackcomposemovies.feature.favorites.FavoriteScreenView
 import com.wcisang.jetpackcomposemovies.feature.home.HomeScreenView
-import com.wcisang.jetpackcomposemovies.feature.home.HomeViewModel
 
 sealed class ScreenHome(val route: String, val icon: ImageVector, @StringRes val title: Int) {
     object Home : ScreenHome("home", Icons.Default.Home, R.string.tab_home)
@@ -40,12 +39,11 @@ fun MainScreenView(mainNavController: NavHostController?) {
         NavHost(navController, startDestination = ScreenHome.Home.route) {
             composable(ScreenHome.Home.route) {
                 screenState.value = ScreenHome.Home
-                val viewModel = hiltNavGraphViewModel<HomeViewModel>()
-                HomeScreenView(mainNavController, viewModel)
+                HomeScreenView(mainNavController, hiltNavGraphViewModel())
             }
             composable(ScreenHome.Favorites.route) {
                 screenState.value = ScreenHome.Favorites
-                FavoriteScreenView()
+                FavoriteScreenView(mainNavController, hiltNavGraphViewModel())
             }
         }
     }

@@ -6,7 +6,7 @@ import com.wcisang.data.local.dao.MoviesDao
 import com.wcisang.data.local.model.MovieEntity
 
 @Database(entities = [MovieEntity::class], version = 1)
-abstract class MovieDataBase : RoomDatabase(){
+abstract class MovieDataBase : RoomDatabase() {
 
-    abstract fun moviesDao() : MoviesDao
+    abstract fun moviesDao(): MoviesDao
 }
