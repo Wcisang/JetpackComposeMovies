@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
@@ -16,7 +17,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +40,7 @@ import com.wcisang.jetpackcomposemovies.R
 fun DetailScreenView(
     navController: NavController?, viewModel: DetailViewModel = viewModel(), movie: Movie
 ) {
+    viewModel.init(movie)
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -88,7 +89,7 @@ private fun DetailContent(movie: Movie, viewModel: DetailViewModel) {
             )
         }
         TextMovieContent(movie = movie)
-        ButtonContent()
+        ButtonContent(viewModel)
         MovieTabs(viewModel)
     }
 }
@@ -111,7 +112,7 @@ private fun ColumnScope.TextMovieContent(movie: Movie) {
 }
 
 @Composable
-private fun ButtonContent() {
+private fun ButtonContent(viewModel: DetailViewModel) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -125,15 +126,24 @@ private fun ButtonContent() {
         ) {
             //TODO Clique do botão assista
         }
-        SecondaryButton(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 10.dp),
-            text = stringResource(id = R.string.detail_save_button),
-            icon = Icons.Default.Star
-        ) {
-            //TODO Clique do botão minha lista
-        }
+
+        FavoriteButton(viewModel)
+    }
+}
+
+@Composable
+private fun RowScope.FavoriteButton(viewModel: DetailViewModel) {
+    val state = viewModel.uiMoviesFavoriteState.collectAsState()
+    SecondaryButton(
+        modifier = Modifier
+            .weight(1f)
+            .padding(horizontal = 10.dp),
+        text = if (state.value is DetailFavoriteState.IsFavorite) stringResource(id = R.string.detail_save_button_saved)
+        else stringResource(id = R.string.detail_save_button),
+        icon = if (state.value is DetailFavoriteState.IsFavorite) Icons.Default.Check
+        else Icons.Default.Star
+    ) {
+        viewModel.onFavoriteClick()
     }
 }
 
@@ -197,7 +207,8 @@ private fun MoviesContentList(movieState: State<DetailState>) {
 @Composable
 private fun MoviesList(movies: List<Movie>) {
     LazyRow(
-    modifier = Modifier.fillMaxHeight()) {
+        modifier = Modifier.fillMaxHeight()
+    ) {
         items(movies) { movie ->
             MoviePoster(image = movie.poster_path!!, modifier = Modifier.padding(8.dp))
         }

@@ -11,6 +11,7 @@
 
     <string name="detail_watch_button">Assista</string>
     <string name="detail_save_button">Minha lista</string>
+    <string name="detail_save_button_saved">Adicionado</string>
     <string name="detail_movie_tab">DETALHES</string>
     <string name="detail_more_tab">ASSISTIR TAMBÉM</string>
 

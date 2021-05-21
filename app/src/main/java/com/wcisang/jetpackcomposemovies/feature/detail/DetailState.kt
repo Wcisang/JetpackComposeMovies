@@ -7,3 +7,8 @@ sealed class DetailState {
     data class Success(val list: List<Movie>) : DetailState()
     data class Failed(val error: String) : DetailState()
 }
+
+sealed class DetailFavoriteState {
+    object IsFavorite: DetailFavoriteState()
+    object IsNotFavorite: DetailFavoriteState()
+}
