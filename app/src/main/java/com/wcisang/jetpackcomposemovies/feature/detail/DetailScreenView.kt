@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.navigate
 import com.google.accompanist.coil.rememberCoilPainter
 import com.wcisang.designsystem.button.PrimaryButton
 import com.wcisang.designsystem.button.SecondaryButton
@@ -34,6 +35,7 @@ import com.wcisang.designsystem.theme.LightBlackBackground
 import com.wcisang.designsystem.theme.TextColorSubtitle
 import com.wcisang.domain.model.Movie
 import com.wcisang.jetpackcomposemovies.R
+import com.wcisang.jetpackcomposemovies.navigation.ScreenMain
 
 @ExperimentalFoundationApi
 @Composable
@@ -50,7 +52,7 @@ fun DetailScreenView(
                 color = BlackTransparent,
                 modifier = Modifier.fillMaxSize()
             ) {
-                DetailContent(movie = movie, viewModel)
+                DetailContent(movie = movie, viewModel, navController)
             }
             IconToolbarArrowBack(
                 modifier = Modifier.align(Alignment.TopStart)
@@ -75,7 +77,7 @@ private fun MovieBackground(image: String) {
 
 @ExperimentalFoundationApi
 @Composable
-private fun DetailContent(movie: Movie, viewModel: DetailViewModel) {
+private fun DetailContent(movie: Movie, viewModel: DetailViewModel, navController: NavController?) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -90,7 +92,7 @@ private fun DetailContent(movie: Movie, viewModel: DetailViewModel) {
         }
         TextMovieContent(movie = movie)
         ButtonContent(viewModel)
-        MovieTabs(viewModel)
+        MovieTabs(viewModel, navController)
     }
 }
 
@@ -154,7 +156,7 @@ sealed class Tabs(val index: Int, val titleId: Int) {
 
 @ExperimentalFoundationApi
 @Composable
-fun MovieTabs(viewModel: DetailViewModel) {
+fun MovieTabs(viewModel: DetailViewModel, navController: NavController?) {
     val tab = remember { mutableStateOf<Tabs>(Tabs.Tab1()) }
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(
@@ -186,7 +188,7 @@ fun MovieTabs(viewModel: DetailViewModel) {
         }
         Surface(color = LightBlackBackground, modifier = Modifier.fillMaxSize()) {
             when (tab.value) {
-                is Tabs.Tab1 -> MoviesContentList(viewModel.uiMoviesState.collectAsState())
+                is Tabs.Tab1 -> MoviesContentList(viewModel.uiMoviesState.collectAsState(), navController)
                 is Tabs.Tab2 -> MovieTechicalDetail()
             }
         }
@@ -195,22 +197,32 @@ fun MovieTabs(viewModel: DetailViewModel) {
 
 @ExperimentalFoundationApi
 @Composable
-private fun MoviesContentList(movieState: State<DetailState>) {
+private fun MoviesContentList(movieState: State<DetailState>, navController: NavController?) {
     when (movieState.value) {
         is DetailState.Loading -> LoadingList()
-        is DetailState.Success -> MoviesList((movieState.value as DetailState.Success).list)
+        is DetailState.Success -> MoviesList((movieState.value as DetailState.Success).list){
+            navController?.goToMovieDetail(it)
+        }
         is DetailState.Failed -> ListError((movieState.value as DetailState.Failed).error)
     }
 }
 
+private fun NavController.goToMovieDetail(movie: Movie) {
+    currentBackStackEntry
+        ?.arguments?.putParcelable("movie", movie)
+    navigate(ScreenMain.Detail.route)
+}
+
 @ExperimentalFoundationApi
 @Composable
-private fun MoviesList(movies: List<Movie>) {
+private fun MoviesList(movies: List<Movie>, onClick: (Movie) -> Unit) {
     LazyRow(
         modifier = Modifier.fillMaxHeight()
     ) {
         items(movies) { movie ->
-            MoviePoster(image = movie.poster_path!!, modifier = Modifier.padding(8.dp))
+            MoviePoster(image = movie.poster_path!!, modifier = Modifier.padding(8.dp)) {
+                onClick(movie)
+            }
         }
     }
 }
