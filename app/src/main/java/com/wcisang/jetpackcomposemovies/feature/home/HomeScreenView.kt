@@ -63,7 +63,12 @@ private fun BodyContent(navController: NavHostController?, viewModel: HomeViewMo
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensionResource(id = R.dimen.margin_default))
+            .padding(
+                start = dimensionResource(id = R.dimen.none),
+                top = dimensionResource(id = R.dimen.margin_default),
+                end = dimensionResource(id = R.dimen.none),
+                bottom = dimensionResource(id = R.dimen.none)
+            )
             .verticalScroll(rememberScrollState())
     )
     {
@@ -84,6 +89,7 @@ private fun BodyContent(navController: NavHostController?, viewModel: HomeViewMo
         )
 
         MovieListContent(
+            Modifier.padding(bottom = dimensionResource(id = R.dimen.bottom_navigation_height)),
             textId = R.string.list_label_upcoming,
             movieState = viewModel.uiUpcomingState.collectAsState(),
             movieClick = movieClick
@@ -93,6 +99,7 @@ private fun BodyContent(navController: NavHostController?, viewModel: HomeViewMo
 
 @Composable
 private fun MovieListContent(
+    modifier: Modifier = Modifier,
     textId: Int,
     movieState: State<HomeState>,
     movieClick: (Movie) -> Unit
@@ -100,7 +107,7 @@ private fun MovieListContent(
     TextListLabel(textId = textId)
     when (movieState.value) {
         is HomeState.Loading -> LoadingList()
-        is HomeState.Success -> MovieList((movieState.value as HomeState.Success).list) {
+        is HomeState.Success -> MovieList(modifier, list = (movieState.value as HomeState.Success).list) {
             movieClick(it)
         }
         is HomeState.Failed -> ListError((movieState.value as HomeState.Failed).error)
@@ -133,9 +140,9 @@ private fun LoadingList() {
 }
 
 @Composable
-private fun MovieList(list: List<Movie>, movieClick: (Movie) -> Unit) {
+private fun MovieList(modifier: Modifier = Modifier, list: List<Movie>, movieClick: (Movie) -> Unit) {
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         items(list) { movie ->
@@ -153,7 +160,12 @@ private fun MovieList(list: List<Movie>, movieClick: (Movie) -> Unit) {
 private fun TextListLabel(textId: Int) {
     MovieTextH6(
         text = stringResource(id = textId),
-        modifier = Modifier.padding(start = 0.dp, top = 20.dp, end = 0.dp, bottom = 7.dp),
+        modifier = Modifier.padding(
+            start = dimensionResource(id = R.dimen.margin_default),
+            top = 20.dp,
+            end = 0.dp,
+            bottom = 7.dp
+        ),
         textColor = Color.White
     )
 }
@@ -165,66 +177,3 @@ private fun HomeScreenViewPreview() {
         HomeScreenView(null)
     }
 }
-
-val movies = listOf(
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    ),
-    Movie(
-        1, false, "",
-        "", "", "",
-        3.5, "https://image.tmdb.org/t/p/original/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg", "", "",
-        false, 3.5, 50
-    )
-)

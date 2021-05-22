@@ -77,7 +77,7 @@ fun MoviesList(list: List<Movie>, onClick: (Movie) -> Unit) {
             MoviePoster(
                 image = movie.poster_path!!,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(6.dp)
             ){
                 onClick(movie)
             }

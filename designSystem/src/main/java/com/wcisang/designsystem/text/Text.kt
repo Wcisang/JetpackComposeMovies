@@ -5,6 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
@@ -17,6 +18,24 @@ fun MovieTextBody1(
     Text(
         text = text,
         style = MaterialTheme.typography.body1,
+        color = textColor,
+        textAlign = textAlign,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun MovieTextBody1Bold(
+    modifier: Modifier = Modifier,
+    text: String,
+    textAlign: TextAlign? = null,
+    textColor: Color = Color.Unspecified
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.body1.copy(
+            fontWeight = FontWeight.Bold
+        ),
         color = textColor,
         textAlign = textAlign,
         modifier = modifier

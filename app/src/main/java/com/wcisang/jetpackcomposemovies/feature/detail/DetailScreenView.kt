@@ -25,6 +25,7 @@ import com.google.accompanist.coil.rememberCoilPainter
 import com.wcisang.designsystem.button.PrimaryButton
 import com.wcisang.designsystem.button.SecondaryButton
 import com.wcisang.designsystem.custom.IconToolbarArrowBack
+import com.wcisang.designsystem.custom.MovieInfo
 import com.wcisang.designsystem.custom.MovieLoadingPoster
 import com.wcisang.designsystem.custom.MoviePoster
 import com.wcisang.designsystem.text.MovieTextBody1
@@ -83,6 +84,7 @@ private fun DetailContent(movie: Movie, viewModel: DetailViewModel, navControlle
         modifier = Modifier
             .padding(top = 60.dp)
             .verticalScroll(rememberScrollState())
+            .fillMaxSize()
     ) {
         Card(elevation = 8.dp) {
             MoviePoster(
@@ -91,8 +93,8 @@ private fun DetailContent(movie: Movie, viewModel: DetailViewModel, navControlle
             )
         }
         TextMovieContent(movie = movie)
-        ButtonContent(viewModel)
-        MovieTabs(viewModel, navController)
+        ButtonContent(viewModel, movie)
+        MovieTabs(viewModel, navController, movie)
     }
 }
 
@@ -114,7 +116,7 @@ private fun ColumnScope.TextMovieContent(movie: Movie) {
 }
 
 @Composable
-private fun ButtonContent(viewModel: DetailViewModel) {
+private fun ButtonContent(viewModel: DetailViewModel, movie: Movie) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
@@ -156,9 +158,9 @@ sealed class Tabs(val index: Int, val titleId: Int) {
 
 @ExperimentalFoundationApi
 @Composable
-fun MovieTabs(viewModel: DetailViewModel, navController: NavController?) {
+fun MovieTabs(viewModel: DetailViewModel, navController: NavController?, movie: Movie) {
     val tab = remember { mutableStateOf<Tabs>(Tabs.Tab1()) }
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         TabRow(
             selectedTabIndex = tab.value.index,
             backgroundColor = Color.Black,
@@ -189,7 +191,7 @@ fun MovieTabs(viewModel: DetailViewModel, navController: NavController?) {
         Surface(color = LightBlackBackground, modifier = Modifier.fillMaxSize()) {
             when (tab.value) {
                 is Tabs.Tab1 -> MoviesContentList(viewModel.uiMoviesState.collectAsState(), navController)
-                is Tabs.Tab2 -> MovieTechicalDetail()
+                is Tabs.Tab2 -> MovieTechnicalDetail(movie)
             }
         }
     }
@@ -247,6 +249,11 @@ private fun ListError(error: String) {
 }
 
 @Composable
-fun MovieTechicalDetail() {
-    Text(text = "Detalhes do filme")
+fun MovieTechnicalDetail(movie: Movie) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        MovieInfo(label = "Titulo original", value = movie.original_title)
+        MovieInfo(label = "Idioma original", value = movie.original_language)
+        MovieInfo(label = "Popularidade", value = movie.popularity.toString())
+        MovieInfo(label = "Média avaliação", value = movie.vote_average.toString())
+    }
 }

@@ -2,10 +2,7 @@ package com.wcisang.designsystem.custom
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
@@ -21,7 +18,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.coil.rememberCoilPainter
 import com.wcisang.designsystem.R
+import com.wcisang.designsystem.text.MovieTextBody1
+import com.wcisang.designsystem.text.MovieTextBody1Bold
 import com.wcisang.designsystem.theme.LightGray
+import com.wcisang.designsystem.theme.TextColorDetailLabel
+import com.wcisang.designsystem.theme.TextColorDetailValue
 
 @Composable
 fun MoviePoster(image: String, modifier: Modifier = Modifier, onClick: (() -> Unit) = {}) {
@@ -68,4 +69,15 @@ fun IconToolbarArrowBack(modifier: Modifier = Modifier, onClick: () -> Unit) {
             .clickable { onClick() },
         tint = Color.White
     )
+}
+
+@Composable
+fun MovieInfo(modifier: Modifier = Modifier, label: String, value: String) {
+    Row(modifier = modifier.padding(vertical = 2.dp)) {
+        MovieTextBody1Bold(text = "$label:", textColor = TextColorDetailLabel)
+        MovieTextBody1(
+            text = value, textColor = TextColorDetailValue,
+            modifier = Modifier.padding(start = 6.dp)
+        )
+    }
 }
